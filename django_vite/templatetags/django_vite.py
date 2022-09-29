@@ -158,14 +158,6 @@ class DjangoViteAssetLoader:
         tags = []
         manifest_entry = self._manifest[path]
 
-        if "imports" in manifest_entry:
-            for import_path in manifest_entry["imports"]:
-                tags.extend(
-                    self._generate_css_files_of_asset(
-                        import_path, already_processed
-                    )
-                )
-
         if "css" in manifest_entry:
             for css_path in manifest_entry["css"]:
                 if css_path not in already_processed:
@@ -176,6 +168,14 @@ class DjangoViteAssetLoader:
                     )
 
                 already_processed.append(css_path)
+
+        if "imports" in manifest_entry:
+            for import_path in manifest_entry["imports"]:
+                tags.extend(
+                    self._generate_css_files_of_asset(
+                        import_path, already_processed
+                    )
+                )
 
         return tags
 
